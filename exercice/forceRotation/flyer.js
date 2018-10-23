@@ -1,11 +1,13 @@
 //position et velocity sont des vec2
 function Flyer(position) {
   this.position = position;
+  this.direction = vec2.create();
   this.velocity = vec2.fromValues(Math.random() * 2 - 1, Math.random() * 2 - 1);
   this.acceleration = vec2.fromValues(0, 0);
   this.maxSpeed = 2;
   this.size = 10;
   this.angle = 0;
+  this.previousAngle = 0;
   this.easing = Math.random() * 0.01;
 
   this.update = function(canvas, mouse) {
@@ -17,7 +19,6 @@ function Flyer(position) {
 
     // vec2.add(this.velocity, this.velocity, this.acceleration);
     vec2.add(this.position, this.position, this.velocity);
-
     // var vx = (targetX - object.x) * this.easing;
     // object.x += vx;
 
@@ -25,7 +26,20 @@ function Flyer(position) {
     let dy = mouse.y - this.position[1];
     // console.log(Math.atan2(dy, dx));
     this.angle = Math.atan2(dy, dx) + Math.PI * 2.5;
+
+    //trying toi rotate :/
+    // let rotX =
+    //   Math.cos(this.previousAngle - this.angle) * this.position[0] -
+    //   Math.sin(this.previousAngle - this.angle) * this.position[1];
+    // let rotY =
+    //   Math.sin(this.previousAngle - this.angle) * this.position[0] +
+    //   Math.cos(this.previousAngle - this.angle) * this.position[1];
+
+    // // vec2.fromValues(this.direction,this.position,this.angle)
+    // this.position = vec2.fromValues(rotX, rotY);
+    // this.previousAngle = this.angle;
   };
+
   //await an vec2 as force
   this.applyForce = function(force) {
     vec2.add(this.acceleration, this.acceleration, force);
