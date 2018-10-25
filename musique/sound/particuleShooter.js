@@ -42,6 +42,7 @@ class ParticuleShooter {
     particule.positionOnFire[1] = this.position[1];
     particule.target[0] = target[0] - this.position[0];
     particule.target[1] = target[1] - this.position[1];
+
     particule.time = 0;
     return particule;
   }

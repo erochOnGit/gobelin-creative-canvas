@@ -1,10 +1,65 @@
+@font-face {
+  font-family: Hyundai;
+  src: url(fonts/Hyundai.ttf);
+}
+
 body {
   all: unset;
+  color: white;
+  font-family: Hyundai;
   overflow: hidden;
   background: black;
   position: relative;
 }
+/* color */
+/* F3BB0E */
+/* F1A513 */
+/* F3941C */
+/* F48222 */
+/* 282828 */
 
 canvas {
   position: absolute;
+}
+
+div {
+  position: absolute;
+  mix-blend-mode: difference;
+}
+
+.contenants {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.isolants {
+  position: relative;
+  isolation: isolate;
+  width: 60px;
+  height: 60px;
+
+  animation: verticalBounce 2s ease-in-out infinite;
+}
+
+.texts {
+  font-size: 8em;
+  font-weight: bold;
+
+  mix-blend-mode: darken;
+  position: absolute;
+}
+
+.text-hauts {
+  color: yellow;
+
+  animation: keyf1 2s ease-in-out infinite;
+}
+.text-bas {
+  color: #f1a522;
+  animation: keyf2 2s ease-in-out infinite;
+}
+.text-centres {
+  color: #f48222;
 }

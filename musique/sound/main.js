@@ -48,6 +48,20 @@ let moyenne = tab => {
 var opts = {
   barWidth: 10
 };
+let handleText = frequencyData => {
+  let bassMoy = moyenne(
+    frequencyData.filter((data, index) => {
+      return index < 10;
+    })
+  );
+  let upperText = document.querySelector(".text-hauts");
+  let lowerText = document.querySelector(".text-bas");
+  let centreText = document.querySelector(".text-centres");
+  upperText.style.transform = "scale(" + bassMoy / 100 + ")";
+  lowerText.style.transform = "scale(" + bassMoy / 100 + ")";
+  centreText.style.transform = "scale(" + bassMoy / 100 + ")";
+  console.log(bassMoy / 100);
+};
 
 function initSceneCanvas() {
   sceneCanvas = document.querySelector("canvas#scene");
@@ -182,15 +196,17 @@ function frame() {
   sceneCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   peopleCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   lightCtx.clearRect(0, 0, canvasWidth, canvasHeight);
-
-  // drawScene(scene);
-
-  // scene.people.forEach(person => {
-  //   person.move(DIRECTION.HAUT, peopleCanvas);
-  //   person.drawPerson(peopleCtx, frequencyData);
-  // });
-
-  if (Math.floor(time) % 5 == 0) {
+  drawScene(scene);
+  handleText(frequencyData);
+  scene.people.forEach(person => {
+    person.move(DIRECTION.HAUT, peopleCanvas);
+    person.drawPerson(peopleCtx, frequencyData);
+  });
+  // console.log(Math.floor(frequencyMoy) > 80);
+  if (
+    // true
+    Math.floor(moyenne(frequencyData) > 80)
+  ) {
     scene.lights.forEach(light => {
       light.fire();
     });
@@ -206,7 +222,7 @@ function frame() {
   // console.log(average);
 }
 
-let initScene = () => {};
+// let initScene = () => {};
 
 /**
  * onResize
