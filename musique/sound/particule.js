@@ -1,6 +1,7 @@
 class Particule {
   constructor(position) {
     this.position = position;
+    this.previousPosition = vec2.create();
     this.positionOnFire = vec2.create();
     this.target = vec2.create();
     this.alpha = 1;
@@ -8,8 +9,9 @@ class Particule {
     this.color =
       circleColors[Math.floor(Math.random() * circleColors.length) + 0];
     this.size = 1;
-    this.time = 0.1;
+    this.time = 0;
     this.duration = 2000;
+    this.toDelete = false;
   }
 
   easeOutExpo(t, b, c, d) {
@@ -18,7 +20,6 @@ class Particule {
 
   update(dt) {
     this.time += dt;
-
     if (this.time < this.duration) {
       this.position = vec2.fromValues(
         this.easeOutExpo(
@@ -36,7 +37,7 @@ class Particule {
       );
       this.alpha -= 0.01;
     } else {
-      this.times = 0;
+      this.toDelete = true;
     }
   }
 
@@ -44,11 +45,20 @@ class Particule {
     ctx.save();
     ctx.beginPath();
     ctx.fillStyle = this.color;
+    ctx.strokeStyle = this.color;
     ctx.translate(this.position[0], this.position[1]);
     ctx.globalAlpha = this.alpha;
-    ctx.arc(0, 0, this.size, 0, Math.PI * 2, true);
+    // ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
+    ctx.moveTo(0, 0);
+    ctx.lineTo(
+      this.previousPosition[0] - this.position[0],
+      this.previousPosition[1] - this.position[1]
+    );
     ctx.fill();
+    ctx.stroke();
     ctx.closePath();
     ctx.restore();
+    this.previousPosition[0] = this.position[0];
+    this.previousPosition[1] = this.position[1];
   }
 }

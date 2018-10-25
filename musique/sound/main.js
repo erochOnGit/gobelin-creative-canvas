@@ -130,7 +130,7 @@ function loadSound(url) {
         // );
         scene.lights.push(
           new ParticuleShooter(
-            vec2.fromValues(canvasWidth / 7, canvasHeight / 3, 200),
+            vec2.fromValues(canvasWidth / 2, canvasHeight / 1.5, 200),
             0,
             1,
             1

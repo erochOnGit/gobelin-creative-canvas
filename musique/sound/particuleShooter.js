@@ -7,9 +7,9 @@ class ParticuleShooter {
 
     this.etatAnimation = -1;
     this.time = 0;
-    this.duration = 20000;
+    this.duration = 5000;
     this.particules = [];
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 1; i++) {
       this.particules.push(new Particule(this.position));
     }
   }
@@ -31,8 +31,12 @@ class ParticuleShooter {
     // On commence l'animation
     this.etatAnimation = 1;
   }
+
   initParticule(particule) {
-    let target = vec2.fromValues(this.position[0], this.position[1] + 300);
+    let target = vec2.fromValues(
+      this.position[0] + Math.random() * 100 - 50,
+      this.position[1] - 700
+    );
 
     particule.positionOnFire[0] = this.position[0];
     particule.positionOnFire[1] = this.position[1];
@@ -48,16 +52,16 @@ class ParticuleShooter {
       if (this.time < this.duration) {
         this.particules.push(this.initParticule(new Particule(this.position)));
         this.particules.forEach((particule, index) => {
-          if (particule.time >= particule.duration) {
+          if (particule.toDelete) {
             this.particules.splice(index, 1);
           }
           particule.update(dt);
         });
-        console.log(this.particules.length);
       } else {
         this.etatAnimation = -1;
       }
     }
+    // console.log(this.particules.length);
   }
   draw(ctx) {
     // let frame = 0;
