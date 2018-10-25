@@ -26,10 +26,24 @@ div {
   position: absolute;
   mix-blend-mode: difference;
 }
-
+.titre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 25vh;
+}
+.sous-titre {
+  top: 12.5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 25vh;
+}
 .contenants {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,29 +51,46 @@ div {
 .isolants {
   position: relative;
   isolation: isolate;
-  width: 60px;
-  height: 60px;
-
-  animation: verticalBounce 2s ease-in-out infinite;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .texts {
   font-size: 8em;
   font-weight: bold;
 
-  mix-blend-mode: darken;
+  mix-blend-mode: color;
+  position: absolute;
+}
+
+.sous-titre .texts {
+  font-size: 4em;
+  font-weight: normal;
+  mix-blend-mode: lighten;
   position: absolute;
 }
 
 .text-hauts {
+  perspective: 250px;
   color: yellow;
-
-  animation: keyf1 2s ease-in-out infinite;
+}
+.sous-titre .text-hauts {
+  color: magenta;
 }
 .text-bas {
-  color: #f1a522;
-  animation: keyf2 2s ease-in-out infinite;
+  perspective: 250px;
+  color: #f3941c;
+}
+.sous-titre .text-bas {
+  color: white;
 }
 .text-centres {
+  perspective: 250px;
   color: #f48222;
+}
+.sous-titre .text-centres {
+  color: cyan;
 }

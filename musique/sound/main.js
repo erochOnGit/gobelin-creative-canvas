@@ -6,6 +6,19 @@ var canvasHeight = window.innerHeight;
 
 /**
  *
+ * mouse stuffs
+ *
+ */
+let mouseX = 0;
+let mouseY = 0;
+document.body.onmousemove = function(e) {
+  // suivi de la position de la souris dans la console
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+};
+
+/**
+ *
  * Sound stuff
  *
  */
@@ -47,20 +60,6 @@ let moyenne = tab => {
 };
 var opts = {
   barWidth: 10
-};
-let handleText = frequencyData => {
-  let bassMoy = moyenne(
-    frequencyData.filter((data, index) => {
-      return index < 10;
-    })
-  );
-  let upperText = document.querySelector(".text-hauts");
-  let lowerText = document.querySelector(".text-bas");
-  let centreText = document.querySelector(".text-centres");
-  upperText.style.transform = "scale(" + bassMoy / 100 + ")";
-  lowerText.style.transform = "scale(" + bassMoy / 100 + ")";
-  centreText.style.transform = "scale(" + bassMoy / 100 + ")";
-  console.log(bassMoy / 100);
 };
 
 function initSceneCanvas() {
@@ -196,7 +195,7 @@ function frame() {
   sceneCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   peopleCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   lightCtx.clearRect(0, 0, canvasWidth, canvasHeight);
-  drawScene(scene);
+  // drawScene(scene);
   handleText(frequencyData);
   scene.people.forEach(person => {
     person.move(DIRECTION.HAUT, peopleCanvas);
