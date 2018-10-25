@@ -27,7 +27,7 @@ class Ruban {
   }
 
   update(canvas, time) {
-    let particules = new particules();
+    // let particules = new particules();
     this.edges(canvas);
     this.coords.splice(0, 0, {
       x: this.coords[0].x + Math.sin(time) * Math.random() * 5,

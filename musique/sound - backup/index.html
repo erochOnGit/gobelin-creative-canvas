@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <style type="text/css">
+    body {
+      all: unset;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="scene"></canvas>
+  <canvas id="people"></canvas>
+  <canvas id="light"></canvas>
+
+  <script src="./glMatrixDist/gl-matrix-min.js"></script>
+  <script src="./glMatrixDist/gl-matrix.js"></script>
+  <script src="./circle.js"></script>
+  <script src="./rectangle.js"></script>
+  <script>
+
+    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+
+    var canvasWidth = window.innerWidth;
+    var canvasHeight = window.innerHeight;
+
+    /**
+     *
+     * Sound stuff
+     *
+     */
+    var audioCtx = new AudioContext();
+    var audioBuffer;
+    var audioSource;
+    var analyser = audioCtx.createAnalyser();
+    var frequencyData = new Uint8Array(analyser.frequencyBinCount);
+
+    /**
+      Time stuff
+    */
+    var DELTA_TIME = 0;
+    var LAST_TIME = Date.now();
+
+    /**
+      Canvas stuff
+    */
+    var canvas
+    var ctx
+
+    let scene = []
+    let particules = [];
+
+    var opts = {
+      barWidth: 10
+    }
+
+    function initCanvas() {
+
+      canvas = document.querySelector('canvas')
+      ctx = canvas.getContext('2d')
+
+      onResize()
+
+    }
+
+    function loadSound(url) {
+      var request = new XMLHttpRequest();
+      request.open('GET', './sounds/RISE.mp3', true);
+      request.responseType = 'arraybuffer';
+
+      // Decode asynchronously
+      request.onload = function () {
+
+        audioCtx.decodeAudioData(request.response, function (buffer) {
+
+          // success callback
+          audioBuffer = buffer;
+
+          // Create sound from buffer
+          audioSource = audioCtx.createBufferSource();
+          audioSource.buffer = audioBuffer;
+
+          // connect the audio source to context's output
+          audioSource.connect(analyser)
+          analyser.connect(audioCtx.destination)
+
+          // play sound
+          audioSource.start();
+
+          //initialisation
+          scene.push(new Rectangle(vec2.fromValues(0, canvasHeight / 2), vec2.create(), 0, 1, canvasWidth))
+
+          addListeners()
+          frame()
+
+        }, function () {
+
+          // error callback
+          //
+        });
+      }
+      request.send();
+    }
+
+
+    /**
+     * addListeners
+     */
+    function addListeners() {
+
+      window.addEventListener('resize', onResize.bind(this));
+      rafId = requestAnimationFrame(frame)
+
+    }
+
+    /**
+     * update
+     * - Triggered on every TweenMax tick
+     */
+    function frame() {
+      // console.log(frequencyData)
+
+      rafId = requestAnimationFrame(frame)
+
+      DELTA_TIME = Date.now() - LAST_TIME;
+      LAST_TIME = Date.now();
+
+      analyser.getByteFrequencyData(frequencyData);
+
+
+      analyser.getByteFrequencyData(frequencyData);
+      // ctx.clearRect(0, 0, canvasWidth, canvasHeight)
+
+      scene.forEach(stuff => {
+        stuff.update(canvas)
+        // stuff.updateSize(frequencyData[0])
+        stuff.draw(ctx)
+      });
+
+      // average = cumul / 255;
+
+      // console.log(average);
+
+    }
+
+
+    let initScene = () => {
+
+    }
+
+    /**
+     * onResize
+     * - Triggered when window is resized
+     * @param  {obj} evt
+     */
+    function onResize(evt) {
+
+      canvasWidth = window.innerWidth;
+      canvasHeight = window.innerHeight;
+
+      canvas.width = canvasWidth
+      canvas.height = canvasHeight
+      canvas.style.width = canvasWidth + 'px'
+      canvas.style.height = canvasHeight + 'px'
+
+    }
+
+
+    initCanvas()
+    loadSound()
+
+  </script>
+
+</body>
+
+</html>
