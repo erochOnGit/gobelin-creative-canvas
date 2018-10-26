@@ -42,14 +42,19 @@ class Particule {
   }
 
   draw(ctx) {
-    if (this.position[0] != 0 && this.previousPosition[0] != 0) {
+    if (
+      this.position[0] != 0 &&
+      this.previousPosition[0] != 0 &&
+      this.previousPosition[1] - this.position[1] < 200 &&
+      this.previousPosition[1] - this.position[1] > 0
+    ) {
       ctx.save();
       ctx.beginPath();
       ctx.fillStyle = this.color;
       ctx.strokeStyle = this.color;
       ctx.translate(this.position[0], this.position[1]);
       ctx.globalAlpha = this.alpha;
-      // ctx.arc(0, 0, 10, 0, Math.PI * 2, true);
+      // ctx.arc(0, 0, 3, 0, Math.PI * 2, true);
       ctx.moveTo(0, 0);
       ctx.lineTo(
         this.previousPosition[0] - this.position[0],

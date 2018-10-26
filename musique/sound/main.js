@@ -1,3 +1,13 @@
+let smoothDisplayNone = elt => {
+  elt.style.opacity = "0";
+  elt.addEventListener("click", e => {
+    e.preventDefault();
+  });
+  setTimeout(() => {
+    elt.style.display = "none";
+  }, 500);
+};
+
 window.AudioContext =
   window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
@@ -66,7 +76,7 @@ function initSceneCanvas() {
   sceneCanvas = document.querySelector("canvas#scene");
   sceneCtx = sceneCanvas.getContext("2d");
 
-  onResize(sceneCanvas);
+  resize(sceneCanvas);
 }
 
 let drawScene = scene => {
@@ -78,16 +88,19 @@ function initPeopleCanvas() {
   peopleCanvas = document.querySelector("canvas#people");
   peopleCtx = peopleCanvas.getContext("2d");
 
-  onResize(peopleCanvas);
+  resize(peopleCanvas);
 }
+
 function initLightCanvas() {
   lightCanvas = document.querySelector("canvas#light");
   lightCtx = lightCanvas.getContext("2d");
 
-  onResize(lightCanvas);
+  resize(lightCanvas);
 }
 
 function loadSound(url) {
+  smoothDisplayNone(document.querySelector(".start"));
+
   var request = new XMLHttpRequest();
   request.open("GET", "./sounds/RISE.mp3", true);
   request.responseType = "arraybuffer";
@@ -123,34 +136,12 @@ function loadSound(url) {
           people: [],
           lights: []
         };
-
-        scene.people.push(
-          new Person(
-            "sprite1.png",
-            "rekkles",
-            vec2.fromValues(canvasWidth / 2, canvasHeight / 1.5),
-            DIRECTION.HAUT
-          )
-        );
-
-        // scene.people.push(
-        //   new Person(
-        //     "sprite1.png",
-        //     "caps",
-        //     vec2.fromValues(canvasWidth / 7, canvasHeight / 3),
-        //     DIRECTION.HAUT
-        //   )
-        // );
-        scene.lights.push(
-          new ParticuleShooter(
-            vec2.fromValues(canvasWidth / 2, canvasHeight / 1.5, 200),
-            0,
-            1,
-            1
-          )
-        );
+        initPlayer(scene);
 
         scene.people.forEach(person => {
+          console.log();
+          scene.lights.push(new ParticuleShooter(person.position, 0, 1, 1));
+
           for (let phylloIndex = 0; phylloIndex < 25; phylloIndex++) {
             person.lights.push(
               new PhylloPoint(person.position, vec2.create(), 0, 1, lightsSize)
@@ -197,10 +188,12 @@ function frame() {
   lightCtx.clearRect(0, 0, canvasWidth, canvasHeight);
   // drawScene(scene);
   handleText(frequencyData);
+
   scene.people.forEach(person => {
-    person.move(DIRECTION.HAUT, peopleCanvas);
+    person.move(person.player, peopleCanvas);
     person.drawPerson(peopleCtx, frequencyData);
   });
+
   // console.log(Math.floor(frequencyMoy) > 80);
   if (
     // true
@@ -229,6 +222,16 @@ function frame() {
  * @param  {obj} evt
  */
 function onResize(canvas) {
+  resize(sceneCanvas);
+  resize(lightCanvas);
+  resize(peopleCanvas);
+
+  scene.people.forEach((person, index) => {
+    person.setPosition(peopleCanvas, index);
+  });
+}
+
+let resize = canvas => {
   canvasWidth = window.innerWidth * 2;
   canvasHeight = window.innerHeight * 2;
 
@@ -236,9 +239,14 @@ function onResize(canvas) {
   canvas.height = canvasHeight;
   canvas.style.width = canvasWidth / 2 + "px";
   canvas.style.height = canvasHeight / 2 + "px";
-}
+};
+// function resize() {
+//   // onResize(sceneCanvas);
+//   // onResize(peopleCanvas);
+//   // onResize(lightCanvas);
+// }
+// window.onresize = resize;
 
 initSceneCanvas();
 initPeopleCanvas();
 initLightCanvas();
-loadSound();

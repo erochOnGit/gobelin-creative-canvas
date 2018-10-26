@@ -24,7 +24,7 @@ canvas {
 
 div {
   position: absolute;
-  mix-blend-mode: difference;
+  /* mix-blend-mode: difference; */
 }
 .titre {
   display: flex;
@@ -34,7 +34,7 @@ div {
   height: 25vh;
 }
 .sous-titre {
-  top: 12.5vh;
+  top: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,4 +93,18 @@ div {
 }
 .sous-titre .text-centres {
   color: cyan;
+}
+
+.start {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(#f3941c, black);
+  transition: opacity 2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.start.texts {
+  mix-blend-mode: overlay;
 }

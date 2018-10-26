@@ -26,7 +26,7 @@ let handleText = frequencyData => {
       "rotateY(" +
       (sceneCanvas.width / 4 - mouseX) / 10 +
       "deg) rotateX(" +
-      (mouseY - sceneCanvas.height / 4) / 10 +
+      (mouseY * 2 - sceneCanvas.height / 4) / 10 +
       "deg) translateZ(" +
       -bassMoy +
       "px) scale(" +
@@ -36,7 +36,7 @@ let handleText = frequencyData => {
       "rotateY(" +
       (mouseX - sceneCanvas.width / 4) / 10 +
       "deg) rotateX(" +
-      (mouseY - sceneCanvas.height / 4) / 10 +
+      (sceneCanvas.height / 4 - mouseY * 2) / 10 +
       "deg) translateZ(" +
       -bassMoy +
       "px) scale(" +
@@ -49,7 +49,7 @@ let handleText = frequencyData => {
       "rotateY(" +
       (sceneCanvas.width / 4 - mouseX) / 10 +
       "deg) rotateX(" +
-      (mouseY - sceneCanvas.height / 4) / 10 +
+      (mouseY * 2 - sceneCanvas.height / 4) / 10 +
       "deg) translateZ(" +
       -bassMoy +
       "px) scale(" +
@@ -59,7 +59,7 @@ let handleText = frequencyData => {
       "rotateY(" +
       (mouseX - sceneCanvas.width / 4) / 10 +
       "deg) rotateX(" +
-      (mouseY - sceneCanvas.height / 4) / 10 +
+      (sceneCanvas.height / 4 - mouseY * 2) / 10 +
       "deg) translateZ(" +
       -bassMoy +
       "px) scale(" +
@@ -71,7 +71,7 @@ let handleText = frequencyData => {
     "rotateY(" +
     (sceneCanvas.width / 4 - mouseX) / 10 +
     "deg) rotateX(" +
-    (mouseY - sceneCanvas.height / 4) / 10 +
+    (mouseY * 2 - sceneCanvas.height / 4) / 10 +
     "deg) translateZ(" +
     -bassMoy +
     "px) scale(" +
@@ -81,7 +81,7 @@ let handleText = frequencyData => {
     "rotateY(" +
     (mouseX - sceneCanvas.width / 4) / 10 +
     "deg) rotateX(" +
-    (mouseY - sceneCanvas.height / 4) / 10 +
+    (sceneCanvas.height / 4 - mouseY * 2) / 10 +
     "deg) translateZ(" +
     -bassMoy +
     "px) scale(" +
